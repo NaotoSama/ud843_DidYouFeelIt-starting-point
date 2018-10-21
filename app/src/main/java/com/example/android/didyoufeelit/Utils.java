@@ -32,8 +32,7 @@ import java.net.URL;
 import java.nio.charset.Charset;
 
 /**
- * Utility class with methods to help perform the HTTP request and
- * parse the response.
+ * Utility class with methods to help perform the HTTP request and parse the response.
  */
 public final class Utils {
 
@@ -45,10 +44,10 @@ public final class Utils {
      */
     public static Event fetchEarthquakeData(String requestUrl) {
         // Create URL object
-        URL url = createUrl(requestUrl);
+        URL url = createUrl(requestUrl);  //下面有編寫createUrl方法的細節
 
         // Perform HTTP request to the URL and receive a JSON response back
-        String jsonResponse = null;
+        String jsonResponse = null;  //創建一個字符叫"jsonResponse"並將它初始化為空
         try {
             jsonResponse = makeHttpRequest(url);
         } catch (IOException e) {
@@ -56,7 +55,7 @@ public final class Utils {
         }
 
         // Extract relevant fields from the JSON response and create an {@link Event} object
-        Event earthquake = extractFeatureFromJson(jsonResponse);
+        Event earthquake = extractFeatureFromJson(jsonResponse); //下面有編寫extractFeatureFromJson方法的細節
 
         // Return the {@link Event}
         return earthquake;
@@ -95,12 +94,11 @@ public final class Utils {
             urlConnection.setRequestMethod("GET");
             urlConnection.connect();
 
-            // If the request was successful (response code 200),
-            // then read the input stream and parse the response.
+            // If the request was successful (response code 200), then read the input stream and parse the response.
             if (urlConnection.getResponseCode() == 200) {
                 inputStream = urlConnection.getInputStream();
                 jsonResponse = readFromStream(inputStream);
-            } else {
+            } else {         // If the response code is not 200, log the error message.
                 Log.e(LOG_TAG, "Error response code: " + urlConnection.getResponseCode());
             }
         } catch (IOException e) {
@@ -117,8 +115,7 @@ public final class Utils {
     }
 
     /**
-     * Convert the {@link InputStream} into a String which contains the
-     * whole JSON response from the server.
+     * Convert the {@link InputStream} into a String which contains the whole JSON response from the server.
      */
     private static String readFromStream(InputStream inputStream) throws IOException {
         StringBuilder output = new StringBuilder();
@@ -135,8 +132,7 @@ public final class Utils {
     }
 
     /**
-     * Return an {@link Event} object by parsing out information
-     * about the first earthquake from the input earthquakeJSON string.
+     * Return an {@link Event} object by parsing out information about the first earthquake from the input earthquakeJSON string.
      */
     private static Event extractFeatureFromJson(String earthquakeJSON) {
         // If the JSON string is empty or null, then return early.
